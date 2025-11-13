@@ -21,9 +21,8 @@ server.get("/", (requisicao, resposta) => {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid">
-                <a class="navbar-brand" href="/">Meu App</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -38,7 +37,6 @@ server.get("/", (requisicao, resposta) => {
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdownCadastros">
                                 <li><a class="dropdown-item" href="/cadastrar-fornecedor">Cadastrar Fornecedor</a></li>
-                                <!-- Adicionar outros cadastros aqui, ex: cliente -->
                             </ul>
                         </li>
                         <li class="nav-item">
