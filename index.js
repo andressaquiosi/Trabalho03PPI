@@ -9,18 +9,9 @@ const server = express();
 
 server.use(express.urlencoded({ extended: true }));
 
-// Rota Principal (Home)
-server.get("/", (requisicao, resposta) => {
-    let conteudo = `
-    <!DOCTYPE html>
-    <html lang="pt-BR">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Sistema de Gerenciamento</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    </head>
-    <body>
+// Função para gerar o menu
+function gerarMenu() {
+    return `
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,12 +40,34 @@ server.get("/", (requisicao, resposta) => {
                 </div>
             </div>
         </nav>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    `;
+}
+
+// Rota Principal (Home)
+server.get("/", (requisicao, resposta) => {
+    let conteudo = `
+    <!DOCTYPE html>
+    <html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Sistema de Gerenciamento</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    </head>
+    <body>
+        ${gerarMenu()}
         <div class="container mt-5">
             <h1>Página Inicial</h1>
             <p>Bem-vindo ao sistema de gerenciamento.</p>
-            <p>Use o menu acima para navegar.</p>
+            <p>Use o menu acima para navegar pelas funcionalidades:</p>
+            <ul>
+                <li><strong>Home:</strong> Página inicial do sistema</li>
+                <li><strong>Cadastros:</strong> Acesse o formulário de cadastro de fornecedores</li>
+                <li><strong>Login:</strong> Faça login no sistema</li>
+                <li><strong>Logout:</strong> Saia do sistema</li>
+            </ul>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     </body>
     </html>
     `;
@@ -73,35 +86,7 @@ server.get("/cadastrar-fornecedor", (requisicao, resposta) => {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="/">Meu App</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/">Home</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
-                                Cadastros
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="/cadastrar-fornecedor">Cadastrar Fornecedor</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/login">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/logout">Logout</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        ${gerarMenu()}
         <div class="container mt-5">
             <h2 class="mb-4">Formulário de Cadastro de Fornecedor</h2>
             
@@ -110,28 +95,28 @@ server.get("/cadastrar-fornecedor", (requisicao, resposta) => {
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="cnpj" class="form-label">CNPJ:</label>
-                        <input type="text" class="form-control" id="cnpj" name="cnpj" value="">
+                        <input type="text" class="form-control" id="cnpj" name="cnpj" value="" placeholder="00.000.000/0000-00">
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="razaoSocial" class="form-label">Razão Social:</label>
-                        <input type="text" class="form-control" id="razaoSocial" name="razaoSocial" value="">
+                        <input type="text" class="form-control" id="razaoSocial" name="razaoSocial" value="" placeholder="Moraes & irmãos Ltda">
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="nomeFantasia" class="form-label">Nome Fantasia:</label>
-                        <input type="text" class="form-control" id="nomeFantasia" name="nomeFantasia" value="">
+                        <input type="text" class="form-control" id="nomeFantasia" name="nomeFantasia" value="" placeholder="Loja do 1,99">
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="telefone" class="form-label">Telefone:</label>
-                        <input type="text" class="form-control" id="telefone" name="telefone" value="">
+                        <input type="text" class="form-control" id="telefone" name="telefone" value="" placeholder="(00) 00000-0000">
                     </div>
                 </div>
 
                 <div class="mb-3">
                     <label for="endereco" class="form-label">Endereço:</label>
-                    <input type="text" class="form-control" id="endereco" name="endereco" value="">
+                    <input type="text" class="form-control" id="endereco" name="endereco" value="" placeholder="Rua, Número, Bairro">
                 </div>
                 
                 <div class="row">
@@ -141,17 +126,17 @@ server.get("/cadastrar-fornecedor", (requisicao, resposta) => {
                     </div>
                     <div class="col-md-3 mb-3">
                         <label for="uf" class="form-label">UF:</label>
-                        <input type="text" class="form-control" id="uf" name="uf" value="">
+                        <input type="text" class="form-control" id="uf" name="uf" value="" placeholder="SC" maxlength="2">
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="cep" class="form-label">CEP:</label>
-                        <input type="text" class="form-control" id="cep" name="cep" value="">
+                        <input type="text" class="form-control" id="cep" name="cep" value="" placeholder="00000-000">
                     </div>
                 </div>
 
                 <div class="mb-3">
                     <label for="email" class="form-label">Email:</label>
-                    <input type="email" class="form-control" id="email" name="email" value="">
+                    <input type="email" class="form-control" id="email" name="email" value="" placeholder="contato@empresa.com">
                 </div>
                 
                 <button type="submit" class="btn btn-primary">Cadastrar</button>
@@ -172,7 +157,9 @@ server.get("/cadastrar-fornecedor", (requisicao, resposta) => {
                             <th>Nome Fantasia</th>
                             <th>Telefone</th>
                             <th>Email</th>
+                            <th>Endereço</th>
                             <th>Cidade/UF</th>
+                            <th>CEP</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -185,7 +172,9 @@ server.get("/cadastrar-fornecedor", (requisicao, resposta) => {
                     <td>${fornecedor.nomeFantasia}</td>
                     <td>${fornecedor.telefone}</td>
                     <td>${fornecedor.email}</td>
+                    <td>${fornecedor.endereco}</td>
                     <td>${fornecedor.cidade}/${fornecedor.uf}</td>
+                    <td>${fornecedor.cep}</td>
                 </tr>
             `;
         }
@@ -200,7 +189,6 @@ server.get("/cadastrar-fornecedor", (requisicao, resposta) => {
     
     conteudo += `
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     </body>
     </html>
     `;
@@ -226,35 +214,7 @@ server.post('/cadastrar-fornecedor', (requisicao, resposta) => {
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
         </head>
         <body>
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="/">Meu App</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a class="nav-link" href="/">Home</a>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
-                                    Cadastros
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="/cadastrar-fornecedor">Cadastrar Fornecedor</a></li>
-                                </ul>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/login">Login</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/logout">Logout</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
+            ${gerarMenu()}
             <div class="container mt-5">
                 <h2 class="mb-4">Formulário de Cadastro de Fornecedor</h2>
                 
@@ -263,7 +223,7 @@ server.post('/cadastrar-fornecedor', (requisicao, resposta) => {
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="cnpj" class="form-label">CNPJ:</label>
-                            <input type="text" class="form-control" id="cnpj" name="cnpj" value="${cnpj || ''}">
+                            <input type="text" class="form-control" id="cnpj" name="cnpj" value="${cnpj || ''}" placeholder="00.000.000/0000-00">
         `;
         
         if (!cnpj) {
@@ -278,7 +238,7 @@ server.post('/cadastrar-fornecedor', (requisicao, resposta) => {
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="razaoSocial" class="form-label">Razão Social:</label>
-                            <input type="text" class="form-control" id="razaoSocial" name="razaoSocial" value="${razaoSocial || ''}">
+                            <input type="text" class="form-control" id="razaoSocial" name="razaoSocial" value="${razaoSocial || ''}" placeholder="Moraes & irmãos Ltda">
         `;
         
         if (!razaoSocial) {
@@ -296,7 +256,7 @@ server.post('/cadastrar-fornecedor', (requisicao, resposta) => {
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="nomeFantasia" class="form-label">Nome Fantasia:</label>
-                            <input type="text" class="form-control" id="nomeFantasia" name="nomeFantasia" value="${nomeFantasia || ''}">
+                            <input type="text" class="form-control" id="nomeFantasia" name="nomeFantasia" value="${nomeFantasia || ''}" placeholder="Loja do 1,99">
         `;
         
         if (!nomeFantasia) {
@@ -311,7 +271,7 @@ server.post('/cadastrar-fornecedor', (requisicao, resposta) => {
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="telefone" class="form-label">Telefone:</label>
-                            <input type="text" class="form-control" id="telefone" name="telefone" value="${telefone || ''}">
+                            <input type="text" class="form-control" id="telefone" name="telefone" value="${telefone || ''}" placeholder="(00) 00000-0000">
         `;
         
         if (!telefone) {
@@ -328,7 +288,7 @@ server.post('/cadastrar-fornecedor', (requisicao, resposta) => {
 
                     <div class="mb-3">
                         <label for="endereco" class="form-label">Endereço:</label>
-                        <input type="text" class="form-control" id="endereco" name="endereco" value="${endereco || ''}">
+                        <input type="text" class="form-control" id="endereco" name="endereco" value="${endereco || ''}" placeholder="Rua, Número, Bairro">
         `;
         
         if (!endereco) {
@@ -360,7 +320,7 @@ server.post('/cadastrar-fornecedor', (requisicao, resposta) => {
                         </div>
                         <div class="col-md-3 mb-3">
                             <label for="uf" class="form-label">UF:</label>
-                            <input type="text" class="form-control" id="uf" name="uf" value="${uf || ''}">
+                            <input type="text" class="form-control" id="uf" name="uf" value="${uf || ''}" placeholder="SC" maxlength="2">
         `;
         
         if (!uf) {
@@ -375,7 +335,7 @@ server.post('/cadastrar-fornecedor', (requisicao, resposta) => {
                         </div>
                         <div class="col-md-4 mb-3">
                             <label for="cep" class="form-label">CEP:</label>
-                            <input type="text" class="form-control" id="cep" name="cep" value="${cep || ''}">
+                            <input type="text" class="form-control" id="cep" name="cep" value="${cep || ''}" placeholder="00000-000">
         `;
         
         if (!cep) {
@@ -392,7 +352,7 @@ server.post('/cadastrar-fornecedor', (requisicao, resposta) => {
 
                     <div class="mb-3">
                         <label for="email" class="form-label">Email:</label>
-                        <input type="email" class="form-control" id="email" name="email" value="${email || ''}">
+                        <input type="email" class="form-control" id="email" name="email" value="${email || ''}" placeholder="contato@empresa.com">
         `;
         
         if (!email) {
@@ -424,7 +384,9 @@ server.post('/cadastrar-fornecedor', (requisicao, resposta) => {
                                 <th>Nome Fantasia</th>
                                 <th>Telefone</th>
                                 <th>Email</th>
+                                <th>Endereço</th>
                                 <th>Cidade/UF</th>
+                                <th>CEP</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -437,7 +399,9 @@ server.post('/cadastrar-fornecedor', (requisicao, resposta) => {
                         <td>${fornecedor.nomeFantasia}</td>
                         <td>${fornecedor.telefone}</td>
                         <td>${fornecedor.email}</td>
+                        <td>${fornecedor.endereco}</td>
                         <td>${fornecedor.cidade}/${fornecedor.uf}</td>
+                        <td>${fornecedor.cep}</td>
                     </tr>
                 `;
             }
@@ -452,7 +416,6 @@ server.post('/cadastrar-fornecedor', (requisicao, resposta) => {
         
         conteudo += `
             </div>
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
         </body>
         </html>
         `;
@@ -473,35 +436,7 @@ server.get('/login', (requisicao, resposta) => {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="/">Meu App</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/">Home</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
-                                Cadastros
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="/cadastrar-fornecedor">Cadastrar Fornecedor</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/login">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/logout">Logout</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        ${gerarMenu()}
         <div class="container mt-5">
             <div class="row justify-content-center">
                 <div class="col-md-6">
@@ -509,25 +444,27 @@ server.get('/login', (requisicao, resposta) => {
                     <form action="/login" method="POST">
                         <div class="mb-3">
                             <label for="usuario" class="form-label">Usuário:</label>
-                            <input type="text" class="form-control" id="usuario" name="usuario" value="">
+                            <input type="text" class="form-control" id="usuario" name="usuario" value="" placeholder="Digite seu usuário">
                         </div>
                         <div class="mb-3">
                             <label for="senha" class="form-label">Senha:</label>
-                            <input type="password" class="form-control" id="senha" name="senha">
+                            <input type="password" class="form-control" id="senha" name="senha" placeholder="Digite sua senha">
                         </div>
                         <button type="submit" class="btn btn-success">Entrar</button>
                     </form>
+                    <div class="mt-3">
+                        <p class="text-muted"><small>Dica: usuário: <strong>admin</strong> | senha: <strong>123</strong></small></p>
+                    </div>
                 </div>
             </div>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     </body>
     </html>
     `;
     resposta.send(conteudo);
 });
 
-// Rota POST de Login
+// Rota POST de Login - Validação no servidor
 server.post('/login', (requisicao, resposta) => {
     const { usuario, senha } = requisicao.body;
     
@@ -541,35 +478,7 @@ server.post('/login', (requisicao, resposta) => {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="/">Meu App</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/">Home</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
-                                Cadastros
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="/cadastrar-fornecedor">Cadastrar Fornecedor</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/login">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/logout">Logout</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        ${gerarMenu()}
         <div class="container mt-5">
             <div class="row justify-content-center">
                 <div class="col-md-6">
@@ -577,27 +486,42 @@ server.post('/login', (requisicao, resposta) => {
                     <form action="/login" method="POST">
                         <div class="mb-3">
                             <label for="usuario" class="form-label">Usuário:</label>
-                            <input type="text" class="form-control" id="usuario" name="usuario" value="${usuario || ''}">
+                            <input type="text" class="form-control" id="usuario" name="usuario" value="${usuario || ''}" placeholder="Digite seu usuário">
                         </div>
                         <div class="mb-3">
                             <label for="senha" class="form-label">Senha:</label>
-                            <input type="password" class="form-control" id="senha" name="senha">
+                            <input type="password" class="form-control" id="senha" name="senha" placeholder="Digite sua senha">
                         </div>
                         <button type="submit" class="btn btn-success">Entrar</button>
                     </form>
     `;
     
+    // Validação: usuário = admin e senha = 123
     if (usuario === 'admin' && senha === '123') {
-        conteudo += '<div class="alert alert-success mt-4">Login efetuado com sucesso!</div>';
+        conteudo += `
+                    <div class="alert alert-success mt-4" role="alert">
+                        <h4 class="alert-heading">Login efetuado com sucesso!</h4>
+                        <p>Bem-vindo ao sistema, <strong>${usuario}</strong>!</p>
+                        <hr>
+                        <p class="mb-0">Use o menu acima para navegar pelas funcionalidades.</p>
+                    </div>
+        `;
     } else {
-        conteudo += '<div class="alert alert-danger mt-4">Usuário ou senha inválidos.</div>';
+        conteudo += `
+                    <div class="alert alert-danger mt-4" role="alert">
+                        <h4 class="alert-heading">Falha no login!</h4>
+                        <p>Usuário ou senha inválidos. Por favor, tente novamente.</p>
+                    </div>
+                    <div class="mt-3">
+                        <p class="text-muted"><small>Dica: usuário: <strong>admin</strong> | senha: <strong>123</strong></small></p>
+                    </div>
+        `;
     }
     
     conteudo += `
                 </div>
             </div>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     </body>
     </html>
     `;
@@ -617,42 +541,23 @@ server.get('/logout', (requisicao, resposta) => {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="/">Meu App</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/">Home</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
-                                Cadastros
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="/cadastrar-fornecedor">Cadastrar Fornecedor</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/login">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/logout">Logout</a>
-                        </li>
-                    </ul>
+        ${gerarMenu()}
+        <div class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="alert alert-success" role="alert">
+                        <h4 class="alert-heading">Logout efetuado com sucesso!</h4>
+                        <p>Você saiu do sistema com segurança.</p>
+                        <hr>
+                        <p class="mb-0">Obrigado por utilizar nosso sistema. Até a próxima!</p>
+                    </div>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                        <a href="/" class="btn btn-primary">Voltar para Home</a>
+                        <a href="/login" class="btn btn-success">Fazer Login Novamente</a>
+                    </div>
                 </div>
             </div>
-        </nav>
-        <div class="container mt-5">
-            <div class="alert alert-info">
-                Logout efetuado com sucesso!
-            </div>
-            <a href="/" class="btn btn-primary">Voltar para Home</a>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     </body>
     </html>
     `;
