@@ -4,6 +4,7 @@ const host = "0.0.0.0";
 const porta = 3000;
 
 var listaFornecedores = [];
+var listaClientes = [];
 
 const server = express();
 
@@ -28,6 +29,7 @@ function gerarMenu() {
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdownCadastros">
                                 <li><a class="dropdown-item" href="/cadastrar-fornecedor">Cadastrar Fornecedor</a></li>
+                                <li><a class="dropdown-item" href="/cadastrar-cliente">Cadastrar Cliente</a></li>
                             </ul>
                         </li>
                         <li class="nav-item">
@@ -60,13 +62,37 @@ server.get("/", (requisicao, resposta) => {
         <div class="container mt-5">
             <h1>Página Inicial</h1>
             <p>Bem-vindo ao sistema de gerenciamento.</p>
-            <p>Use o menu acima para navegar pelas funcionalidades:</p>
-            <ul>
-                <li><strong>Home:</strong> Página inicial do sistema</li>
-                <li><strong>Cadastros:</strong> Acesse o formulário de cadastro de fornecedores</li>
-                <li><strong>Login:</strong> Faça login no sistema</li>
-                <li><strong>Logout:</strong> Saia do sistema</li>
-            </ul>
+            <p>Use o menu acima para navegar pelas funcionalidades disponíveis no sistema:</p>
+            
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <div class="card mb-3">
+                        <div class="card-header bg-primary text-white">
+                            <h5>Cadastros</h5>
+                        </div>
+                        <div class="card-body">
+                            <ul>
+                                <li><a href="/cadastrar-fornecedor">Cadastrar Fornecedor</a> - Cadastre empresas fornecedoras</li>
+                                <li><a href="/cadastrar-cliente">Cadastrar Cliente</a> - Cadastre clientes no sistema</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="card mb-3">
+                        <div class="card-header bg-success text-white">
+                            <h5>Acesso ao Sistema</h5>
+                        </div>
+                        <div class="card-body">
+                            <ul>
+                                <li><a href="/login">Login</a> - Faça login no sistema</li>
+                                <li><a href="/logout">Logout</a> - Saia do sistema com segurança</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </body>
     </html>
@@ -412,6 +438,350 @@ server.post('/cadastrar-fornecedor', (requisicao, resposta) => {
             `;
         } else {
             conteudo += '<p class="alert alert-info">Nenhum fornecedor cadastrado ainda.</p>';
+        }
+        
+        conteudo += `
+            </div>
+        </body>
+        </html>
+        `;
+        
+        resposta.send(conteudo);
+    }
+});
+
+// Rota GET para exibir o formulário de cadastro de cliente
+server.get("/cadastrar-cliente", (requisicao, resposta) => {
+    let conteudo = `
+    <!DOCTYPE html>
+    <html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Cadastro de Cliente</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    </head>
+    <body>
+        ${gerarMenu()}
+        <div class="container mt-5">
+            <h2 class="mb-4">Formulário de Cadastro de Cliente</h2>
+            
+            <form action="/cadastrar-cliente" method="POST">
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="nome" class="form-label">Nome Completo:</label>
+                        <input type="text" class="form-control" id="nome" name="nome" value="">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="email" class="form-label">Email:</label>
+                        <input type="email" class="form-control" id="email" name="email" value="">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label for="cpf" class="form-label">CPF:</label>
+                        <input type="text" class="form-control" id="cpf" name="cpf" value="" placeholder="000.000.000-00">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="telefone" class="form-label">Telefone:</label>
+                        <input type="text" class="form-control" id="telefone" name="telefone" value="" placeholder="(00) 00000-0000">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="dataNascimento" class="form-label">Data de Nascimento:</label>
+                        <input type="date" class="form-control" id="dataNascimento" name="dataNascimento" value="">
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="endereco" class="form-label">Endereço:</label>
+                    <input type="text" class="form-control" id="endereco" name="endereco" value="">
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-5 mb-3">
+                        <label for="cidade" class="form-label">Cidade:</label>
+                        <input type="text" class="form-control" id="cidade" name="cidade" value="">
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="uf" class="form-label">UF:</label>
+                        <input type="text" class="form-control" id="uf" name="uf" value="" placeholder="SC" maxlength="2">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="cep" class="form-label">CEP:</label>
+                        <input type="text" class="form-control" id="cep" name="cep" value="" placeholder="00000-000">
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Cadastrar</button>
+            </form>
+            <hr class="mt-5">
+
+            <h3 class="mb-4">Clientes Cadastrados</h3>
+    `;
+    
+    if (listaClientes.length > 0) {
+        conteudo += `
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>CPF</th>
+                            <th>Telefone</th>
+                            <th>Data Nasc.</th>
+                            <th>Cidade/UF</th>
+                            <th>CEP</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+        `;
+        for (const cliente of listaClientes) {
+            conteudo += `
+                <tr>
+                    <td>${cliente.nome}</td>
+                    <td>${cliente.email}</td>
+                    <td>${cliente.cpf}</td>
+                    <td>${cliente.telefone}</td>
+                    <td>${cliente.dataNascimento}</td>
+                    <td>${cliente.cidade}/${cliente.uf}</td>
+                    <td>${cliente.cep}</td>
+                </tr>
+            `;
+        }
+        conteudo += `
+                    </tbody>
+                </table>
+            </div>
+        `;
+    } else {
+        conteudo += '<p class="alert alert-info">Nenhum cliente cadastrado ainda.</p>';
+    }
+    
+    conteudo += `
+        </div>
+    </body>
+    </html>
+    `;
+    resposta.send(conteudo);
+});
+
+// Rota POST para processar o cadastro de cliente
+server.post('/cadastrar-cliente', (requisicao, resposta) => {
+    const { nome, email, cpf, telefone, dataNascimento, endereco, cidade, uf, cep } = requisicao.body;
+
+    if (nome && email && cpf && telefone && dataNascimento && endereco && cidade && uf && cep) {
+        listaClientes.push({ nome, email, cpf, telefone, dataNascimento, endereco, cidade, uf, cep });
+        console.log("Cliente cadastrado com sucesso!");
+        resposta.redirect('/cadastrar-cliente');
+    } else {
+        let conteudo = `
+        <!DOCTYPE html>
+        <html lang="pt-BR">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Cadastro de Cliente</title>
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        </head>
+        <body>
+            ${gerarMenu()}
+            <div class="container mt-5">
+                <h2 class="mb-4">Formulário de Cadastro de Cliente</h2>
+                
+                <form action="/cadastrar-cliente" method="POST">
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="nome" class="form-label">Nome Completo:</label>
+                            <input type="text" class="form-control" id="nome" name="nome" value="${nome || ''}">
+        `;
+        
+        if (!nome) {
+            conteudo += `
+                            <div>
+                                <p class="text-danger">Por favor, informe o Nome Completo</p>
+                            </div>
+            `;
+        }
+        
+        conteudo += `
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="email" class="form-label">Email:</label>
+                            <input type="email" class="form-control" id="email" name="email" value="${email || ''}">
+        `;
+        
+        if (!email) {
+            conteudo += `
+                            <div>
+                                <p class="text-danger">Por favor, informe o Email</p>
+                            </div>
+            `;
+        }
+        
+        conteudo += `
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="cpf" class="form-label">CPF:</label>
+                            <input type="text" class="form-control" id="cpf" name="cpf" value="${cpf || ''}" placeholder="000.000.000-00">
+        `;
+        
+        if (!cpf) {
+            conteudo += `
+                            <div>
+                                <p class="text-danger">Por favor, informe o CPF</p>
+                            </div>
+            `;
+        }
+        
+        conteudo += `
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="telefone" class="form-label">Telefone:</label>
+                            <input type="text" class="form-control" id="telefone" name="telefone" value="${telefone || ''}" placeholder="(00) 00000-0000">
+        `;
+        
+        if (!telefone) {
+            conteudo += `
+                            <div>
+                                <p class="text-danger">Por favor, informe o Telefone</p>
+                            </div>
+            `;
+        }
+        
+        conteudo += `
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="dataNascimento" class="form-label">Data de Nascimento:</label>
+                            <input type="date" class="form-control" id="dataNascimento" name="dataNascimento" value="${dataNascimento || ''}">
+        `;
+        
+        if (!dataNascimento) {
+            conteudo += `
+                            <div>
+                                <p class="text-danger">Por favor, informe a Data de Nascimento</p>
+                            </div>
+            `;
+        }
+        
+        conteudo += `
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="endereco" class="form-label">Endereço:</label>
+                        <input type="text" class="form-control" id="endereco" name="endereco" value="${endereco || ''}">
+        `;
+        
+        if (!endereco) {
+            conteudo += `
+                        <div>
+                            <p class="text-danger">Por favor, informe o Endereço</p>
+                        </div>
+            `;
+        }
+        
+        conteudo += `
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-5 mb-3">
+                            <label for="cidade" class="form-label">Cidade:</label>
+                            <input type="text" class="form-control" id="cidade" name="cidade" value="${cidade || ''}">
+        `;
+        
+        if (!cidade) {
+            conteudo += `
+                            <div>
+                                <p class="text-danger">Por favor, informe a Cidade</p>
+                            </div>
+            `;
+        }
+        
+        conteudo += `
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="uf" class="form-label">UF:</label>
+                            <input type="text" class="form-control" id="uf" name="uf" value="${uf || ''}" placeholder="SC" maxlength="2">
+        `;
+        
+        if (!uf) {
+            conteudo += `
+                            <div>
+                                <p class="text-danger">Por favor, informe o UF</p>
+                            </div>
+            `;
+        }
+        
+        conteudo += `
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="cep" class="form-label">CEP:</label>
+                            <input type="text" class="form-control" id="cep" name="cep" value="${cep || ''}" placeholder="00000-000">
+        `;
+        
+        if (!cep) {
+            conteudo += `
+                            <div>
+                                <p class="text-danger">Por favor, informe o CEP</p>
+                            </div>
+            `;
+        }
+        
+        conteudo += `
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Cadastrar</button>
+                </form>
+                <hr class="mt-5">
+
+                <h3 class="mb-4">Clientes Cadastrados</h3>
+        `;
+        
+        if (listaClientes.length > 0) {
+            conteudo += `
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Email</th>
+                                <th>CPF</th>
+                                <th>Telefone</th>
+                                <th>Data Nasc.</th>
+                                <th>Cidade/UF</th>
+                                <th>CEP</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+            for (const cliente of listaClientes) {
+                conteudo += `
+                    <tr>
+                        <td>${cliente.nome}</td>
+                        <td>${cliente.email}</td>
+                        <td>${cliente.cpf}</td>
+                        <td>${cliente.telefone}</td>
+                        <td>${cliente.dataNascimento}</td>
+                        <td>${cliente.cidade}/${cliente.uf}</td>
+                        <td>${cliente.cep}</td>
+                    </tr>
+                `;
+            }
+            conteudo += `
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        } else {
+            conteudo += '<p class="alert alert-info">Nenhum cliente cadastrado ainda.</p>';
         }
         
         conteudo += `
