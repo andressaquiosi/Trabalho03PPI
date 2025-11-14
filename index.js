@@ -526,7 +526,6 @@ server.get("/cadastrar-cliente", (requisicao, resposta) => {
     } else {
         conteudo += '<p class="alert alert-info">Nenhum cliente cadastrado ainda.</p>';
     }
-
     conteudo += `
         </div>
     </body>
@@ -584,7 +583,6 @@ server.post('/cadastrar-cliente', (requisicao, resposta) => {
                             </div>
             `;
         }
-
         conteudo += `
                         </div>
                     </div>
@@ -594,7 +592,6 @@ server.post('/cadastrar-cliente', (requisicao, resposta) => {
                             <label for="cpf" class="form-label">CPF:</label>
                             <input type="text" class="form-control" id="cpf" name="cpf" value="${cpf}" placeholder="000.000.000-00">
         `;
-
         if (!cpf) {
             conteudo += `
                             <div>
@@ -602,14 +599,12 @@ server.post('/cadastrar-cliente', (requisicao, resposta) => {
                             </div>
             `;
         }
-
         conteudo += `
                         </div>
                         <div class="col-md-4 mb-3">
                             <label for="telefone" class="form-label">Telefone:</label>
                             <input type="text" class="form-control" id="telefone" name="telefone" value="${telefone}" placeholder="(00) 00000-0000">
         `;
-
         if (!telefone) {
             conteudo += `
                             <div>
@@ -617,14 +612,12 @@ server.post('/cadastrar-cliente', (requisicao, resposta) => {
                             </div>
             `;
         }
-
         conteudo += `
                         </div>
                         <div class="col-md-4 mb-3">
                             <label for="dataNascimento" class="form-label">Data de Nascimento:</label>
                             <input type="date" class="form-control" id="dataNascimento" name="dataNascimento" value="${dataNascimento}">
         `;
-
         if (!dataNascimento) {
             conteudo += `
                             <div>
@@ -632,7 +625,6 @@ server.post('/cadastrar-cliente', (requisicao, resposta) => {
                             </div>
             `;
         }
-
         conteudo += `
                         </div>
                     </div>
@@ -641,7 +633,6 @@ server.post('/cadastrar-cliente', (requisicao, resposta) => {
                         <label for="endereco" class="form-label">Endereço:</label>
                         <input type="text" class="form-control" id="endereco" name="endereco" value="${endereco}">
         `;
-
         if (!endereco) {
             conteudo += `
                         <div>
@@ -649,7 +640,6 @@ server.post('/cadastrar-cliente', (requisicao, resposta) => {
                         </div>
             `;
         }
-
         conteudo += `
                     </div>
                     
@@ -658,7 +648,6 @@ server.post('/cadastrar-cliente', (requisicao, resposta) => {
                             <label for="cidade" class="form-label">Cidade:</label>
                             <input type="text" class="form-control" id="cidade" name="cidade" value="${cidade}">
         `;
-
         if (!cidade) {
             conteudo += `
                             <div>
@@ -666,14 +655,12 @@ server.post('/cadastrar-cliente', (requisicao, resposta) => {
                             </div>
             `;
         }
-
         conteudo += `
                         </div>
                         <div class="col-md-3 mb-3">
                             <label for="uf" class="form-label">UF:</label>
                             <input type="text" class="form-control" id="uf" name="uf" value="${uf}" placeholder="SC" maxlength="2">
         `;
-
         if (!uf) {
             conteudo += `
                             <div>
@@ -681,14 +668,12 @@ server.post('/cadastrar-cliente', (requisicao, resposta) => {
                             </div>
             `;
         }
-
         conteudo += `
                         </div>
                         <div class="col-md-4 mb-3">
                             <label for="cep" class="form-label">CEP:</label>
                             <input type="text" class="form-control" id="cep" name="cep" value="${cep}" placeholder="00000-000">
         `;
-
         if (!cep) {
             conteudo += `
                             <div>
@@ -696,7 +681,6 @@ server.post('/cadastrar-cliente', (requisicao, resposta) => {
                             </div>
             `;
         }
-
         conteudo += `
                         </div>
                     </div>
@@ -707,7 +691,6 @@ server.post('/cadastrar-cliente', (requisicao, resposta) => {
 
                 <h3 class="mb-4">Clientes Cadastrados</h3>
         `;
-
         if (listaClientes.length > 0) {
             conteudo += `
                 <div class="table-responsive">
@@ -746,7 +729,6 @@ server.post('/cadastrar-cliente', (requisicao, resposta) => {
         } else {
             conteudo += '<p class="alert alert-info">Nenhum cliente cadastrado ainda.</p>';
         }
-
         conteudo += `
             </div>
         </body>
@@ -844,7 +826,6 @@ server.post('/login', (requisicao, resposta) => {
                     </div>
         `;
     }
-
     conteudo += `
                 </div>
             </div>
