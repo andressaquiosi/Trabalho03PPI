@@ -323,7 +323,7 @@ server.post('/cadastrar-fornecedor', (requisicao, resposta) => {
                         </div>
                         <div class="col-md-3 mb-3">
                             <label for="uf" class="form-label">UF:</label>
-                            <input type="text" class="form-control" id="uf" name="uf" value="${uf}" placeholder="SC" maxlength="2">
+                            <input type="text" class="form-control" id="uf" name="uf" value="${uf}" placeholder="SP" maxlength="2">
         `;
         if (!uf) {
             conteudo += `
